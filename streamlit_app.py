@@ -74,6 +74,42 @@ def map_data(df):
     df_.columns=["lat","lon"]
     return df_
 
+@st.cache(allow_output_mutation=True)
+def data_by(by,df):
+    def count_rows(rows):
+        return len(rows)
+    
+    if by == "dom":
+        fig, ax = plt.subplots(1,2, figsize=(10,6))
+        ax[0].set_ylim(40.72,40.75)
+        ax[0].bar(x=sorted(set(df["dom"])),height=df[["dom","Lat"]].groupby("dom").mean().values.flatten())
+        ax[0].set_title("Average latitude by day of the month")
+
+        ax[1].set_ylim(-73.96,-73.98)
+        ax[1].bar(x=sorted(set(df["dom"])),height=df[["dom","Lon"]].groupby("dom").mean().values.flatten(), color="orange")
+        ax[1].set_title("Average longitude by day of the month")
+        return fig
+    
+    elif by == "hours":
+        fig, ax= plt.subplots(figsize=(10,6))
+        ax = plt.hist(x=df.hours, bins=24, range=(0.5,24))
+        return fig
+    
+    elif by == "dow":
+        fig, ax= plt.subplots(figsize=(10,6))
+        ax = plt.hist(x=df.weekday, bins=7, range=(-5,6.5))
+        return fig
+    
+    elif by == "dow_xticks":
+        fig, ax= plt.subplots(figsize=(10,6))
+        ax.set_xticklabels('Mon Tue Wed Thu Fri Sat Sun'.split())
+        ax.set_xticks(np.arange(7))
+        ax = plt.hist(x=df.weekday, bins=7, range=(0,6))
+        return fig
+    
+    else:
+        pass
+
 def Uber_dataset():
     #Uber-raw-data-apr14 dataset
     st.title("Uber data visualization")
