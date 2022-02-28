@@ -59,6 +59,21 @@ def df2_data_transformation(df_):
 
     return df
 
+@st.cache(allow_output_mutation=True)
+def frequency_by_dom(df):
+    fig, ax = plt.subplots(figsize=(10,6))
+    ax.set_title("Frequency by DoM - Uber - April 2014")
+    ax.set_xlabel("Date of the month")
+    ax.set_ylabel("Frequency")
+    ax = plt.hist(x=df.dom, bins=30, rwidth=0.8, range=(0.5,30.5))
+    return fig
+
+@st.cache
+def map_data(df):
+    df_ = df[["Lat","Lon"]]
+    df_.columns=["lat","lon"]
+    return df_
+
 def Uber_dataset():
     #Uber-raw-data-apr14 dataset
     st.title("Uber data visualization")
