@@ -9,9 +9,54 @@ uber_path = "datasets/uber-raw-data-apr14.csv"
 ny_path = "datasets/ny-trips-data.csv"
 netflix = "datasets/netflix_titles.csv"
 
+def myDecorator(function):
+    def modified_function(df):
+        time_ = time.time()
+        res = function(df)
+        time_ = time.time()-time_
+       # with open(f"{function.__name__}_exec_time.txt","w") as f:
+       #     f.write(f"{time_}")
+        return res
+    return modified_function
+
+
 @st.cache
 def load_data(path):
     df = pd.read_csv(path)
+    return df
+
+@myDecorator
+@st.cache
+def df1_data_transformation(df_):
+    df = df_.copy()
+    df["Date/Time"] = df["Date/Time"].map(pd.to_datetime)
+
+    def get_dom(dt):
+        return dt.day
+    def get_weekday(dt):
+        return dt.weekday()
+    def get_hours(dt):
+        return dt.hour
+
+    df["weekday"] = df["Date/Time"].map(get_weekday)
+    df["dom"] = df["Date/Time"].map(get_dom)
+    df["hours"] = df["Date/Time"].map(get_hours)
+
+    return df
+
+@myDecorator
+@st.cache
+def df2_data_transformation(df_):
+    df = df_.copy()
+    df["tpep_pickup_datetime"] = pd.to_datetime(df["tpep_pickup_datetime"])
+    df["tpep_dropoff_datetime"] = pd.to_datetime(df["tpep_dropoff_datetime"])
+
+    def get_hours(dt):
+        return dt.hour
+
+    df["hours_pickup"] = df["tpep_pickup_datetime"].map(get_hours)
+    df["hours_dropoff"] = df["tpep_dropoff_datetime"].map(get_hours)
+
     return df
 
 def Uber_dataset():
