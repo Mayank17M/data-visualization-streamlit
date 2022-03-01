@@ -172,6 +172,10 @@ def Ny_dataset():
     if st.checkbox('Show dataframe 2'):
         df2
 
+    ## Perform Data Transformation
+    st.text(" ")
+    df2_ = df2_data_transformation(df2)
+
 def netflix_data():
     #Netflix dataset
     st.title("Netflix Movies and TV shows")
