@@ -134,6 +134,31 @@ def Uber_dataset():
         st.markdown("`Frequency by day of the month`")
         st.pyplot(frequency_by_dom(df1_))
 
+        #
+        st.text(" ")
+        st.markdown("`Viewing points on a map`")
+        st.map(map_data(df1_))
+
+        #
+        st.text(" ")
+        st.markdown("`Visualization of data per hour`")
+        st.pyplot(data_by("hours",df1_))
+
+        #
+        st.text(" ")
+        st.markdown("`Visualization of data by day of the week`")
+        st.pyplot(data_by("dow",df1_))
+
+        #
+        st.text(" ")
+        st.markdown("`Visualization of data by day of the week with the names of the days in abscissa`")
+        st.pyplot(data_by("dow_xticks",df1_))
+
+        #
+        st.text(" ")
+        st.markdown("`Mean latitude and longitude by day of the month`")
+        plt.gcf().subplots_adjust(wspace = 0.3, hspace = 0.5)
+        st.pyplot(data_by("dom",df1_))
 
 def Ny_dataset():
     #ny-trips-data dataset
