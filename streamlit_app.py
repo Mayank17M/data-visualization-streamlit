@@ -122,6 +122,19 @@ def Uber_dataset():
     if st.checkbox('Show dataframe'):
         df1
 
+    ## Perform Data Transformation
+    df1_ = df1_data_transformation(df1)
+
+    ## Visual representation
+    st.text(" ")
+    st.text(" ")
+    st.header("Visual representation")
+    if st.checkbox("Show graphs"):
+        st.text(" ")
+        st.markdown("`Frequency by day of the month`")
+        st.pyplot(frequency_by_dom(df1_))
+
+
 def Ny_dataset():
     #ny-trips-data dataset
     st.title("New York taxi trips")
