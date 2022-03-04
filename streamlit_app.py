@@ -128,6 +128,23 @@ def passengers_graphs_per_hour(df):
     ax[1,0].set_title("Total number of passages per pickup hour")
     return fig
 
+@st.cache(allow_output_mutation=True)
+def passengers_graphs_per_dropoff_hour(df):
+    fig, ax = plt.subplots(2,2, figsize=(12,6))
+
+    for ax_ in ax:
+        for ax__ in ax_:
+            ax__.set_xticks(np.arange(24))
+
+    ax[0,0].bar(x=sorted(set(df["hours_dropoff"])), height=df[["hours_dropoff","passenger_count"]].groupby("hours_dropoff").sum().values.flatten())
+    ax[0,0].set_title("Total Number of passengers per dropoff hour")
+
+    ax[0,1].bar(x=sorted(set(df["hours_dropoff"])), height=df[["hours_dropoff","passenger_count"]].groupby("hours_dropoff").mean().values.flatten(), color="black")
+    ax[0,1].set_title("Average Number of passengers per dropoff hour")
+
+    ax[1,0].bar(x=sorted(set(df["hours_dropoff"])), height=df["hours_dropoff"].value_counts().sort_index().values.flatten(), color="orange")
+    ax[1,0].set_title("Total number of passages per dropoff hour")
+    return fig
 
 def Uber_dataset():
     #Uber-raw-data-apr14 dataset
