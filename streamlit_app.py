@@ -160,6 +160,20 @@ def amount_graphs_per_hour(df):
     ax[1].set_title("Average trip distance per pickup hour")
     return fig
 
+@st.cache(allow_output_mutation=True)
+def distance_graphs_per_hour(df):
+    fig, ax = plt.subplots(1,2, figsize=(10,6))
+
+    for ax_ in ax:
+        ax_.set_xticks(np.arange(24))
+
+    ax[0].bar(x=sorted(set(df["hours_pickup"])), height=df[["hours_pickup","total_amount"]].groupby("hours_pickup").sum().values.flatten(), color="lime")
+    ax[0].set_title("Total amount per hour")
+
+    ax[1].bar(x=sorted(set(df["hours_pickup"])), height=df[["hours_pickup","total_amount"]].groupby("hours_pickup").mean().values.flatten(), color="pink")
+    ax[1].set_title("Average amount per hour")
+    return fig
+
 def Uber_dataset():
     #Uber-raw-data-apr14 dataset
     st.title("Uber data visualization")
