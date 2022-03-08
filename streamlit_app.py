@@ -110,6 +110,56 @@ def data_by(by,df):
     else:
         pass
 
+
+@st.cache
+def group_by_wd(df):    
+    def count_rows(rows):
+        return len(rows)
+    grp_df = df.groupby(["weekday","hours"]).apply(count_rows).unstack()
+    return grp_df
+
+@st.cache(allow_output_mutation=True)
+def grp_heatmap(grp_df):
+    fig, ax= plt.subplots(figsize=(10,6))
+    ax = sns.heatmap(grp_df)
+    return fig
+
+@st.cache(allow_output_mutation=True)
+def lat_lon_hist(df,fusion=False):
+    lat_range = (40.5,41)
+    lon_range = (-74.2,-73.6)
+
+    if fusion:
+        fig, ax = plt.subplots()
+        ax1 = ax.twiny()
+        ax.hist(df.Lon, range=lon_range, color="yellow")
+        ax.set_xlabel("Latitude")
+        ax.set_ylabel("Frequency")
+
+        ax1.hist(df.Lat, range=lat_range)
+        ax1.set_xlabel("Longitude")
+        ax1.set_ylabel("Frequency")
+        return fig
+    
+    else:
+        fig, ax = plt.subplots(1,2, figsize=(10,5))
+
+
+        ax[0].hist(df.Lat, range=lat_range, color="red")
+        ax[0].set_xlabel("Latitude")
+        ax[0].set_ylabel("Frequence")
+
+        ax[1].hist(df.Lon, range=lon_range, color="green")
+        ax[1].set_xlabel("Longitude")
+        ax[1].set_ylabel("Frequence")
+        return fig
+
+@st.cache(allow_output_mutation=True)
+def display_points(data, color=None):
+    fig, ax= plt.subplots(figsize=(10,6))
+    ax = sns.scatterplot(data=data) if color == None else sns.scatterplot(data=data, color=color)
+    return fig
+
 @st.cache(allow_output_mutation=True)
 def passengers_graphs_per_hour(df):
     fig, ax = plt.subplots(2,2, figsize=(10,6))
