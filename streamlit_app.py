@@ -339,30 +339,45 @@ def Ny_dataset():
     if st.checkbox('Show graphs 2'):
         st.text(" ")
         st.text(" ")
-        st.markdown("`Nombre total, moyen de passagers et nombre total de passages par heure de départ`")
+        st.markdown("`Total number, average number of passengers and total number of crossings per departure time`")
         plt.gcf().subplots_adjust(wspace = 0.3, hspace = 0.5)
         st.pyplot(passengers_graphs_per_hour(df2_))
 
         #
         st.text(" ")
         st.text(" ")
-        st.markdown("`Nombre total, moyen de passagers et nombre total de passages par heure de d'arrivée`")
+        st.markdown("`Total number, average number of passengers and total number of crossings per arrival time`")
         plt.gcf().subplots_adjust(wspace = 0.3, hspace = 0.5)
         st.pyplot(passengers_graphs_per_dropoff_hour(df2_))
 
         #
         st.text(" ")
         st.text(" ")
-        st.markdown("`Montant total et montant moyen perçu en fonction de l'heure de départ`")
+        st.markdown("`Total amount and average amount collected according to departure time`")
         plt.gcf().subplots_adjust(wspace = 0.3, hspace = 0.5)
         st.pyplot(amount_graphs_per_hour(df2_))
 
         #
         st.text(" ")
         st.text(" ")
-        st.markdown("`Distance totale parcourue et distance moyenne en fonction de l'heure de départ`")
+        st.markdown("`Total distance traveled and average distance according to departure time`")
         plt.gcf().subplots_adjust(wspace = 0.3, hspace = 0.5)
         st.pyplot(distance_graphs_per_hour(df2_))
+
+    ## Performing Cross Analysis
+    st.text(" ")
+    st.text(" ")
+    st.header("Performing Cross Analysis")
+    if st.checkbox('Show cross analysis 2'):
+        st.text(" ")
+        st.markdown("`Heat map to visualize the correlation between the different features`")
+        st.pyplot(corr_heatmap(df2_.corr()))
+
+        #
+        st.text(" ")
+        st.markdown("`Heatmap showing the correlation between number of passengers, total distance, amount of fare, tip and total amount grouped by departure time`")
+        grp = df2_[["passenger_count", "hours_pickup", "trip_distance", "fare_amount", "tip_amount", "total_amount"]].groupby("hours_pickup").sum()
+        st.pyplot(corr_heatmap(grp.corr()))
 
 def netflix_data():
     #Netflix dataset
