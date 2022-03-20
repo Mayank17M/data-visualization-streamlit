@@ -110,7 +110,6 @@ def data_by(by,df):
     else:
         pass
 
-
 @st.cache
 def group_by_wd(df):    
     def count_rows(rows):
@@ -224,6 +223,13 @@ def distance_graphs_per_hour(df):
     ax[1].set_title("Average amount per hour")
     return fig
 
+@st.cache(allow_output_mutation=True)
+def corr_heatmap(df):
+    fig, ax = plt.subplots(figsize=(10,6))
+    ax = sns.heatmap(df.corr())
+    return fig
+
+
 def Uber_dataset():
     #Uber-raw-data-apr14 dataset
     st.title("Uber data visualization")
@@ -273,6 +279,42 @@ def Uber_dataset():
         st.markdown("`Mean latitude and longitude by day of the month`")
         plt.gcf().subplots_adjust(wspace = 0.3, hspace = 0.5)
         st.pyplot(data_by("dom",df1_))
+
+    st.text(" ")
+    st.text(" ")
+    ## Performing Cross Analysis
+    st.header("Performing Cross Analysis")
+
+    if st.checkbox('Show cross analysis'):
+
+        #
+        grp_df = group_by_wd(df1_)
+
+        #
+        st.text(" ")
+        st.markdown("`Heatmap with grouped data`")
+        st.pyplot(grp_heatmap(grp_df))
+
+        #
+        st.text(" ")
+        st.markdown("`Histogram of latitude and longitude`")
+        plt.gcf().subplots_adjust(wspace = 0.3, hspace = 0.5)
+        st.pyplot(lat_lon_hist(df1_))
+
+        #
+        st.text(" ")
+        st.markdown("`Merges latitude and longitude histograms`")
+        st.pyplot(lat_lon_hist(df1_, fusion=True))
+
+        #
+        st.text(" ")
+        st.markdown("`Display of the latitude points on a graph`")
+        st.pyplot(display_points(df1_.Lat))
+
+        #
+        st.text(" ")
+        st.markdown("`Display of the longitude points on a graph`")
+        st.pyplot(display_points(df1_.Lon, color="orange"))
 
 def Ny_dataset():
     #ny-trips-data dataset
