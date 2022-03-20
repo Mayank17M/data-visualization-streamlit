@@ -332,6 +332,38 @@ def Ny_dataset():
     st.text(" ")
     df2_ = df2_data_transformation(df2)
 
+    ## Visual representation
+    st.text(" ")
+    st.text(" ")
+    st.header("Visual representation")
+    if st.checkbox('Show graphs 2'):
+        st.text(" ")
+        st.text(" ")
+        st.markdown("`Nombre total, moyen de passagers et nombre total de passages par heure de départ`")
+        plt.gcf().subplots_adjust(wspace = 0.3, hspace = 0.5)
+        st.pyplot(passengers_graphs_per_hour(df2_))
+
+        #
+        st.text(" ")
+        st.text(" ")
+        st.markdown("`Nombre total, moyen de passagers et nombre total de passages par heure de d'arrivée`")
+        plt.gcf().subplots_adjust(wspace = 0.3, hspace = 0.5)
+        st.pyplot(passengers_graphs_per_dropoff_hour(df2_))
+
+        #
+        st.text(" ")
+        st.text(" ")
+        st.markdown("`Montant total et montant moyen perçu en fonction de l'heure de départ`")
+        plt.gcf().subplots_adjust(wspace = 0.3, hspace = 0.5)
+        st.pyplot(amount_graphs_per_hour(df2_))
+
+        #
+        st.text(" ")
+        st.text(" ")
+        st.markdown("`Distance totale parcourue et distance moyenne en fonction de l'heure de départ`")
+        plt.gcf().subplots_adjust(wspace = 0.3, hspace = 0.5)
+        st.pyplot(distance_graphs_per_hour(df2_))
+
 def netflix_data():
     #Netflix dataset
     st.title("Netflix Movies and TV shows")
