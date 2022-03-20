@@ -325,7 +325,7 @@ def Ny_dataset():
     st.header("Load the Data")
     st.text(" ")
     df2 = load_data(ny_path)
-    if st.checkbox('Show dataframe 2'):
+    if st.checkbox('Show dataframe'):
         df2
 
     ## Perform Data Transformation
@@ -336,7 +336,7 @@ def Ny_dataset():
     st.text(" ")
     st.text(" ")
     st.header("Visual representation")
-    if st.checkbox('Show graphs 2'):
+    if st.checkbox('Show graphs'):
         st.text(" ")
         st.text(" ")
         st.markdown("`Total number, average number of passengers and total number of crossings per departure time`")
@@ -368,7 +368,7 @@ def Ny_dataset():
     st.text(" ")
     st.text(" ")
     st.header("Performing Cross Analysis")
-    if st.checkbox('Show cross analysis 2'):
+    if st.checkbox('Show cross analysis'):
         st.text(" ")
         st.markdown("`Heat map to visualize the correlation between the different features`")
         st.pyplot(corr_heatmap(df2_.corr()))
